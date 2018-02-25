@@ -14,6 +14,7 @@
     "typescript": "^2.7.1"
   },
   "dependencies": {
+    "@jscad/csg": "^0.5.3",
     "@jscad/io": "^0.3.12"
   }
 }
