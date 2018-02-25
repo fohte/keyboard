@@ -9,8 +9,12 @@
     "declaration": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
-    "noImplicitReturns": false,
-    "types": ["node"]
+    "noImplicitReturns": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "*": ["types/*", "*"]
+    }
   },
   "include": ["src/**/*"]
 }
