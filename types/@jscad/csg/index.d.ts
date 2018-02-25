@@ -78,13 +78,55 @@ export namespace CSG {
   export const staticTag: number
   export function getTag(): number
 
-  export function sphere(options?: object): CSG
-  export function cube(options?: object): CSG
+  export function sphere(options?: any): CSG
+  export function sphere(options?: any): CSG
+  export function cube(options?: any): CSG
+  export function roundedCube(options?: any): CSG
+  export function cylinder(options?: any): CSG
+  export function roundedCylinder(options?: any): CSG
+  export function cylinderElliptic(options?: any): CSG
+  export function polyhedron(options?: any): CSG
 
+  export function fromCompactBinary(bin: any): CSG
+  export function fromObject(obj: object): CSG
+  export function fromSlices(options?: any): CSG
+  export function fromPolygons(polygons: Polygon[]): CSG
+
+  export function parseOptionAs2DVector(
+    options: object,
+    optionname: string,
+    defaultvalue: Vector2Dable
+  ): Vector2D
+  export function parseOptionAs3DVector(
+    options: object,
+    optionname: string,
+    defaultvalue: Vector3Dable
+  ): Vector3D
+  export function parseOptionAs3DVectorList(
+    options: object,
+    optionname: string,
+    defaultvalue: Vector3Dable[]
+  ): Vector3D
+  export function parseOptionAsBool(
+    options: object,
+    optionname: string,
+    defaultvalue: any
+  ): boolean
+  export function parseOptionAsFloat(
+    options: object,
+    optionname: string,
+    defaultvalue: number
+  ): number
+  export function parseOptionAsInt(
+    options: object,
+    optionname: string,
+    defaultvalue: number
+  ): number
+
+  type Vector2Dable = Vector2D | [number, number]
   export class Vector2D extends Transformer {
     constructor(x: number, y: number)
-    constructor(x: [number, number])
-    constructor(x: Vector2D)
+    constructor(x: Vector2Dable)
 
     static fromAngle(radians: number): Vector2D
     static fromAngleDegrees(degrees: number): Vector2D
@@ -124,35 +166,38 @@ export namespace CSG {
     toString(): string
   }
 
-  export class Vector3D {}
+  type Vector3Dable = Vector3D | [number, number, number]
+  export class Vector3D extends Transformer {}
 
-  export class Vertex {}
+  export class Vertex extends Transformer {}
 
-  export class Plane {}
+  export class Plane extends Transformer {}
 
-  export class Polygon {}
+  export class Polygon extends Transformer {}
 
-  export class Polygon2D {}
+  export class Line2D extends Transformer {}
 
-  export class Line2D {}
+  export class Line3D extends Transformer {}
 
-  export class Line3D {}
+  export class Path2D extends Transformer {}
 
-  export class Path2D {}
-
-  export class OrthoNormalBasis {}
+  export class OrthoNormalBasis extends Transformer {}
 
   export class Matrix4x4 {}
 
-  export class Connector {}
+  export class Connector extends Transformer {}
 
   export class ConnectorList {}
 
   export class Properties {}
+
+  export class Polygon2D extends CAG {}
 }
 
 export namespace CAG {
-  export class Vertex {}
+  export class Side extends Transformer {}
+
+  export class Vertex extends Transformer {}
 }
 
 export class CAG extends Transformer implements ICentering {
