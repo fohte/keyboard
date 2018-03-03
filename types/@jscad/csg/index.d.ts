@@ -95,7 +95,7 @@ declare namespace csg {
     export const parseOptionAsFloat: typeof csg.parseOptionAsFloat
     export const parseOptionAsInt: typeof csg.parseOptionAsInt
 
-    type Vector2Dable = Vector2D | [number, number]
+    type Vector2Dable = Vector2D | [number, number] | { x: number; y: number }
     export class Vector2D extends Transformer {
       constructor(x: number, y: number)
       constructor(x: Vector2Dable)
@@ -138,8 +138,15 @@ declare namespace csg {
       toString(): string
     }
 
-    type Vector3Dable = Vector3D | [number, number, number]
-    export class Vector3D extends Transformer {}
+    type Vector3Dable =
+      | Vector2Dable
+      | Vector3D
+      | [number, number, number]
+      | { x: number; y: number; z: number }
+    export class Vector3D extends Transformer {
+      constructor(x: number, y: number, z?: number)
+      constructor(x: Vector3Dable)
+    }
 
     export class Vertex extends Transformer {}
 
@@ -155,7 +162,52 @@ declare namespace csg {
 
     export class OrthoNormalBasis extends Transformer {}
 
-    export class Matrix4x4 {}
+    type Matrix4x4Elements = [
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number
+    ]
+    export class Matrix4x4 {
+      constructor(elements?: Matrix4x4Elements)
+
+      static unity: () => Matrix4x4
+      static rotationX: (degrees: number) => Matrix4x4
+      static rotationY: (degrees: number) => Matrix4x4
+      static rotationZ: (degrees: number) => Matrix4x4
+      static rotation: (
+        rotationCenter: Vector3Dable,
+        rotationAxis: Vector3Dable,
+        degrees: number
+      ) => Matrix4x4
+      static translation: (v: Vector3Dable) => Matrix4x4
+      static mirroring: (plane: Plane) => Matrix4x4
+      static scaling: (v: Vector3Dable) => Matrix4x4
+
+      elements: Matrix4x4Elements
+
+      plus: (m: Matrix4x4) => Matrix4x4
+      minus: (m: Matrix4x4) => Matrix4x4
+      multiply: (m: Matrix4x4) => Matrix4x4
+      clone: () => Matrix4x4
+      rightMultiply1x3Vector: (v: Vector3D) => Vector3D
+      leftMultiply1x3Vector: (v: Vector3D) => Vector3D
+      rightMultiply1x2Vector: (v: Vector2D) => Vector2D
+      leftMultiply1x2Vector: (v: Vector2D) => Vector2D
+      isMirroring: () => boolean
+    }
 
     export class Connector extends Transformer {}
 
@@ -168,7 +220,7 @@ declare namespace csg {
 
   export class CAG extends Transformer implements ICentering {
     constructor()
-    fromSides(sides: Side[]): CAG
+    fromSides(sides: CAG.Side[]): CAG
   }
 
   export namespace CAG {
